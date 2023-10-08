@@ -2447,11 +2447,11 @@ def find_rc4_passinfo_xls(filename, stream):
                     second_block_bytes = stream.read(32)
                     second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
 
-                sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
+                sys.stdout.write("$oldoffice$%s*%s*%s*%s\n" % (
                     typ, binascii.hexlify(salt).decode("ascii"),
                     binascii.hexlify(encryptedVerifier).decode("ascii"),
-                    binascii.hexlify(encryptedVerifierHash).decode("ascii"),
-                    second_block_extra))
+                    binascii.hexlify(encryptedVerifierHash).decode("ascii")
+                    ))
 
     return None
 
@@ -2565,12 +2565,11 @@ def find_rc4_passinfo_doc(filename, stream):
         if have_summary:
             summary_extra = ":::%s::%s" % (summary, filename)
 
-        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s%s\n" % (
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
-            binascii.hexlify(encryptedVerifierHash).decode("ascii"),
-            second_block_extra,
-            summary_extra))
+            binascii.hexlify(encryptedVerifierHash).decode("ascii")
+            ))
 
     else:
         sys.stderr.write("%s : Cannot find RC4 pass info, is the document encrypted?\n" % filename)
@@ -2676,11 +2675,11 @@ def find_rc4_passinfo_ppt(filename, stream, offset):
             second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
             stream.seek(offset_cur) # to be safe, seek back to old pos (not really needed)
 
-        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
-            binascii.hexlify(encryptedVerifierHash).decode("ascii"),
-            second_block_extra))
+            binascii.hexlify(encryptedVerifierHash).decode("ascii")
+            ))
         return True
     else:
         # sys.stderr.write("%s : Cannot find RC4 pass info, is the document encrypted?\n" % filename)
@@ -2759,11 +2758,11 @@ def find_rc4_passinfo_ppt_bf(filename, stream, offset):
         #     second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
 
         found = True
-        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash).decode("ascii"),
-            second_block_extra))
+            ))
 
     if not found:
         sys.stderr.write("%s : Cannot find RC4 pass info, is document encrypted?\n" % filename)
@@ -2846,11 +2845,11 @@ def process_access_2007_older_crypto(filename):
             second_block_bytes = stream.read(32)
             second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
 
-        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash).decode("ascii"),
-            second_block_extra))
+            ))
         break
 
 
@@ -3126,11 +3125,11 @@ def process_file(filename):
     if have_summary:
         summary_extra = ":::%s::%s" % (summary, filename)
 
-    sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
+    sys.stdout.write("$oldoffice$%s*%s*%s*%s\n" % (
         typ, binascii.hexlify(salt).decode("ascii"),
         binascii.hexlify(verifier).decode("ascii"),
-        binascii.hexlify(verifierHash).decode("ascii"),
-        summary_extra))
+        binascii.hexlify(verifierHash).decode("ascii")
+        ))
 
     workbookStream.close()
     ole.close()
