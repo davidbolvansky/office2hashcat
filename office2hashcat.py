@@ -2607,16 +2607,25 @@ def find_rc4_passinfo_ppt(filename, stream, offset):
     stream.read(2)  # unused
     recType = unpack("<h", stream.read(2))[0]
     recLen = unpack("<L", stream.read(4))[0]
-    # BUGGY: PersistDirectoryAtom and PersistDirectoryEntry processing
-    i = 0
-    stream.read(4)  # unused
-    while i < encryptSessionPersistIdRef:
-        i += 1
-        try:
+    # print("recLen: %d" % recLen)
+
+    # PersistDirectoryAtom and PersistDirectoryEntry processing
+    byteCount = 0
+    while byteCount < recLen:
+        persistData = unpack("<L", stream.read(4))[0]
+        byteCount += 4
+        persistId = persistData & 0xFFFFF
+        cPersist = (persistData >> 20) & 0xFFF
+
+        # print("persistId: %d" % persistId)
+        # print("cPersist: %d" % cPersist)
+        for i in range(persistId,persistId+cPersist):
+            # print("i: %d" % i)
             persistOffset = unpack("<L", stream.read(4))[0]
-        except:
-            # sys.stderr.write("%s : Document is corrupt, or %s has a bug\n" % (filename, sys.argv[0]))
-            return False
+            byteCount += 4
+            # print("byteCount: %d" % byteCount)
+            if i == encryptSessionPersistIdRef or byteCount == recLen:
+                break
     # print persistOffset
     # go to the offset of encryption header
     stream.seek(persistOffset, 0)
