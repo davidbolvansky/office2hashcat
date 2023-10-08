@@ -2447,7 +2447,7 @@ def find_rc4_passinfo_xls(filename, stream):
                     second_block_bytes = stream.read(32)
                     second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
 
-                sys.stdout.write("%s:$oldoffice$%s*%s*%s*%s%s\n" % (os.path.basename(filename),
+                sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
                     typ, binascii.hexlify(salt).decode("ascii"),
                     binascii.hexlify(encryptedVerifier).decode("ascii"),
                     binascii.hexlify(encryptedVerifierHash).decode("ascii"),
@@ -2565,7 +2565,7 @@ def find_rc4_passinfo_doc(filename, stream):
         if have_summary:
             summary_extra = ":::%s::%s" % (summary, filename)
 
-        sys.stdout.write("%s:$oldoffice$%s*%s*%s*%s%s%s\n" % (os.path.basename(filename),
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash).decode("ascii"),
@@ -2676,7 +2676,7 @@ def find_rc4_passinfo_ppt(filename, stream, offset):
             second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
             stream.seek(offset_cur) # to be safe, seek back to old pos (not really needed)
 
-        sys.stdout.write("%s:$oldoffice$%s*%s*%s*%s%s\n" % (os.path.basename(filename),
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash).decode("ascii"),
@@ -2759,7 +2759,7 @@ def find_rc4_passinfo_ppt_bf(filename, stream, offset):
         #     second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
 
         found = True
-        sys.stdout.write("%s:$oldoffice$%s*%s*%s*%s%s\n" % (os.path.basename(filename),
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash).decode("ascii"),
@@ -2846,7 +2846,7 @@ def process_access_2007_older_crypto(filename):
             second_block_bytes = stream.read(32)
             second_block_extra = "*%s" % binascii.hexlify(second_block_bytes).decode("ascii")
 
-        sys.stdout.write("%s:$oldoffice$%s*%s*%s*%s%s\n" % (os.path.basename(filename),
+        sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
             typ, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash).decode("ascii"),
@@ -2908,8 +2908,8 @@ def process_new_office(filename):
         verifierHashSize = unpack("<I", stm.read(4))[0]
         encryptedVerifierHash = stm.read(verifierHashSize)
 
-        sys.stdout.write("%s:$office$*%d*%d*%d*%d*%s*%s*%s\n" % \
-            (os.path.basename(filename), 2007, verifierHashSize,
+        sys.stdout.write("$office$*%d*%d*%d*%d*%s*%s*%s\n" % \
+            (2007, verifierHashSize,
              keySize, saltSize, binascii.hexlify(salt).decode("ascii"),
             binascii.hexlify(encryptedVerifier).decode("ascii"),
             binascii.hexlify(encryptedVerifierHash)[0:64].decode("ascii")))
@@ -2961,8 +2961,8 @@ def xml_metadata_parser(data, filename):
             saltAscii = binascii.hexlify(base64.decodestring(saltValue.encode())).decode("ascii")
             encryptedVerifierHashAscii = binascii.hexlify(base64.decodestring(encryptedVerifierHashInput.encode())).decode("ascii")
 
-        sys.stdout.write("%s:$office$*%d*%d*%d*%d*%s*%s*%s\n" % \
-            (os.path.basename(filename), version,
+        sys.stdout.write("$office$*%d*%d*%d*%d*%s*%s*%s\n" % \
+            (version,
             int(spinCount), int(keyBits), int(saltSize),
             saltAscii,
             encryptedVerifierHashAscii,
@@ -3126,7 +3126,7 @@ def process_file(filename):
     if have_summary:
         summary_extra = ":::%s::%s" % (summary, filename)
 
-    sys.stdout.write("%s:$oldoffice$%s*%s*%s*%s%s\n" % (os.path.basename(filename),
+    sys.stdout.write("$oldoffice$%s*%s*%s*%s%s\n" % (
         typ, binascii.hexlify(salt).decode("ascii"),
         binascii.hexlify(verifier).decode("ascii"),
         binascii.hexlify(verifierHash).decode("ascii"),
